@@ -1,6 +1,9 @@
+from FlaskSetup import app
 from flask_cors import CORS
-from flask import Flask
-app = Flask(__name__)
+from APIs.search import query_books_by_subject
+from APIs.info import query_book_by_item
+from APIs.purchase import purchase_item
+
 CORS(app)
-
-
+if __name__ == '__main__':
+    app.run()
