@@ -1,18 +1,7 @@
-from SQLiteConnection import get_db_connection
 from FlaskSetup import app
-from flask import jsonify
+import requests
 
-@app.route('/purchase/<int:item_id>', methods=['PUT'])
+@app.route('/purchase/<int:item_id>', methods=['POST'])
 def purchase_item(item_id):
-    try:
-        conn = get_db_connection()
-        cursor = conn.cursor()
-        cursor.execute('UPDATE Books SET quantity = quantity - 1 WHERE id = ? AND quantity > 0', (item_id,))
-        conn.commit()
-        conn.close()
-        if cursor.rowcount > 0:
-            return jsonify({"message": 'Book purchase successfully'}), 200
-        else:
-            return jsonify({"message": 'Book not available'}), 404
-    except Exception as e:
-        return jsonify({"message": 'error while execute in DB'}), 400
+    purchase_response = requests.post(f'http://127.0.0.1:5002/purchase/{item_id}')
+    return purchase_response.text,purchase_response.status_code
