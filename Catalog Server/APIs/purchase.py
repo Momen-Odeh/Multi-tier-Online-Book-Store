@@ -9,9 +9,11 @@ def purchase_item(item_id):
         cursor = conn.cursor()
         cursor.execute('UPDATE Books SET quantity = quantity - 1 WHERE id = ? AND quantity > 0', (item_id,))
         conn.commit()
-        conn.close()
         if cursor.rowcount > 0:
-            return jsonify({"message": 'Book purchase successfully'}), 200
+            cursor.execute('SELECT * FROM Books WHERE id = ?', (item_id,))
+            book = cursor.fetchone()
+            conn.close()
+            return jsonify({"message": f'bought book {book[2]}'}), 200
         else:
             return jsonify({"message": 'Book not available'}), 404
     except Exception as e:

@@ -1,21 +1,27 @@
 services:
 
   order:
-    build: .\Oreder Server
+    build: ./Oreder Server
     ports:
       - "5002:5002"
     depends_on:
       - catalog
-
+    volumes:
+      - ./Oreder Server:/app
+    
   frontend:
-    build: .\Frontend Server
+    build: ./Frontend Server
     ports:
       - "5000:5000"
     depends_on:
       - catalog
       - order
-
+    volumes:
+      - ./Frontend Server:/app
+      
   catalog:
-    build: .\Catalog Server
+    build: ./Catalog Server
     ports:
       - "5001:5001"
+    volumes:
+      - ./Catalog Server:/app
