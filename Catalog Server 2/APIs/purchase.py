@@ -1,6 +1,8 @@
 from SQLiteConnection import get_db_connection
 from FlaskSetup import app
 from flask import jsonify
+import requests
+urlReplicaServer = "http://localhost:5001"
 
 @app.route('/purchase/<int:item_id>', methods=['PUT'])
 def purchase_item(item_id):
@@ -13,6 +15,9 @@ def purchase_item(item_id):
             cursor.execute('SELECT * FROM Books WHERE id = ?', (item_id,))
             book = cursor.fetchone()
             conn.close()
+            # Here request to catalog Replica to update DB
+            consistent_response = requests.put(f'{urlReplicaServer}/consistent_book_count/{item_id}')
+            #
             return jsonify({"message": f'bought book {book[2]}'}), 200
         else:
             return jsonify({"message": 'Book not available'}), 404

@@ -8,13 +8,10 @@ WORKDIR /app
 COPY . /app
 
 # Install Python dependencies, including flask_cors
-RUN pip install flask flask_cors
-
-# Install Gunicorn
-RUN pip install gunicorn
+RUN pip install flask flask_cors requests gunicorn
 
 # Expose the Flask app port
-EXPOSE 5001
+EXPOSE 5002
 
 # Command to run the Flask app
-CMD ["gunicorn", "main:app", "--bind", "0.0.0.0:5001"]
+CMD ["gunicorn", "main:app", "--bind", "0.0.0.0:5002"]
