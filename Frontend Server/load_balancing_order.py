@@ -1,4 +1,4 @@
-order_servers = ['http://localhost:5002', 'http://localhost:5002']  # 5002 5004
+order_servers = ['http://localhost:5002', 'http://localhost:5004']
 
 
 def round_robin():
