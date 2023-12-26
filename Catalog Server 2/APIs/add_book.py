@@ -2,7 +2,7 @@ from FlaskSetup import app
 from flask import request,jsonify
 from SQLiteConnection import get_db_connection
 import requests
-urlReplicaServer = "http://localhost:5003"
+urlReplicaServer = "http://localhost:5001"
 @app.route('/books', methods=['POST'])
 def addBook():
     try:
@@ -23,13 +23,13 @@ def addBook():
             id = cursor.fetchone()[0]
             #
             conn.close()
-            if (data.get('be', None) is None):
-                data['be'] = True
-                requests.post(f'{urlReplicaServer}/books', json=data)
             return jsonify({
             "status": "insert successfully",
             "id": id
             }), 201
+        if (data.get('be',None) is None):
+            data['be'] = True
+            requests.post(f'{urlReplicaServer}/books', json=data)
         return "please enter all fields", 400
 
     except Exception as e:
