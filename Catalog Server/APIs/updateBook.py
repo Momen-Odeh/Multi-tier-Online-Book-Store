@@ -1,6 +1,8 @@
 from FlaskSetup import app
 from flask import request,jsonify
 from SQLiteConnection import get_db_connection
+import requests
+urlReplicaServer = "http://localhost:5003"
 @app.route('/books/<int:id>', methods=['PUT'])
 def updateBook(id):
     try:
@@ -37,7 +39,11 @@ def updateBook(id):
         cursor.execute(f"select topic from Books where id = '{id}' ;")
         topic = cursor.fetchone()[0]
         #
-        conn.close()
+
+        if(data.get('be',None) is None):
+            data['be'] = True
+            requests.put(f'{urlReplicaServer}/books/{id}', json=data)
+        # conn.close()
         return jsonify({
         "status": "update successfully",
         "id": id,
