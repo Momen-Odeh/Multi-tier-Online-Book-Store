@@ -1,4 +1,4 @@
-order_servers = ['http://order:5002', 'http://order2:5004']
+order_servers = ['http://order:5002', 'http://order_replica:5004']
 
 
 def round_robin():

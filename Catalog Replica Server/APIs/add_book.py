@@ -25,13 +25,13 @@ def addBook():
             id = cursor.fetchone()[0]
             #
             conn.close()
+            if (data.get('be',None) is None):
+                data['be'] = True
+                requests.post(f'{urlReplicaServer}/books', json=data)
             return jsonify({
             "status": "insert successfully",
             "id": id
             }), 201
-        if (data.get('be',None) is None):
-            data['be'] = True
-            requests.post(f'{urlReplicaServer}/books', json=data)
         return "please enter all fields", 400
 
     except Exception as e:

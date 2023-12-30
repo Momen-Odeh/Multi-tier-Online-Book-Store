@@ -7,19 +7,19 @@ services:
       - "5002:5002"
     depends_on:
       - catalog
-      - catalog2
+      - catalog_replica
     volumes:
       - ./Order Server:/app
       
-  order2:
-    build: ./Order Server 2
+  order_replica:
+    build: ./Order Replica Server
     ports:
       - "5004:5004"
     depends_on:
       - catalog
-      - catalog2
+      - catalog_replica
     volumes:
-      - ./Order Server 2:/app
+      - ./Order Replica Server:/app
       
   frontend:
     build: ./Frontend Server
@@ -27,9 +27,9 @@ services:
       - "5000:5000"
     depends_on:
       - catalog
-      - catalog2
+      - catalog_replica
       - order
-      - order2
+      - order_replica
     volumes:
       - ./Frontend Server:/app
       
@@ -40,9 +40,9 @@ services:
     volumes:
       - ./Catalog Server:/app
       
-  catalog2:
-    build: ./Catalog Server 2
+  catalog_replica:
+    build: ./Catalog Replica Server
     ports:
       - "5003:5003"
     volumes:
-      - ./Catalog Server 2:/app
+      - ./Catalog Replica Server:/app

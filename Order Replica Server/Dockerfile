@@ -6,6 +6,6 @@ COPY . /app
 
 RUN pip install flask flask_cors requests gunicorn
 
-EXPOSE 5002
+EXPOSE 5004
 
-CMD ["gunicorn", "main:app", "-w", "1", "--bind", "0.0.0.0:5002"]
+CMD ["gunicorn", "main:app", "-w", "1", "--bind", "0.0.0.0:5004"]

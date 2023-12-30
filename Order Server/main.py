@@ -5,7 +5,7 @@ CORS(app)
 import requests
 from SQLiteConnection import get_db_connection
 
-catalog_servers = ['http://catalog:5001', 'http://catalog2:5003']
+catalog_servers = ['http://catalog:5001', 'http://catalog_replica:5003']
 
 
 def round_robin():
@@ -15,7 +15,7 @@ def round_robin():
     return server
 
 
-urlReplicaServer = "http://order2:5004"
+urlReplicaServer = "http://order_replica:5004"
 
 
 @app.route('/purchase/<int:item_id>', methods=['POST'])
@@ -52,4 +52,4 @@ def consistent_record():
         return jsonify({"message": 'error while execute in DB'}), 400
 
 if __name__ == '__main__':
-    app.run(host='0.0.0.0', port=5002)
+    app.run(host='0.0.0.0', port=5002, debug=True)
