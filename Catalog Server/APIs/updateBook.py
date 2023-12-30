@@ -34,18 +34,16 @@ def updateBook(id):
         conn = get_db_connection()
         cursor = conn.cursor()
         cursor.execute(sql_query, val + [id])
-        conn.commit()
-
-
-        # get topic from DB
-        cursor.execute(f"select topic from Books where id = '{id}' ;")
-        topic = cursor.fetchone()[0]
-        #
 
         if(data.get('be',None) is None):
             data['be'] = True
-            requests.put(f'{urlReplicaServer}/books/{id}', json=data)
-        # conn.close()
+            res = requests.put(f'{urlReplicaServer}/books/{id}', json=data)
+            if res.status_code !=200:
+                    return {"status": "invalid request"}, 409
+        conn.commit()
+        cursor.execute(f"select topic from Books where id = '{id}' ;")
+        topic = cursor.fetchone()[0]
+        conn.close()
         return jsonify({
         "status": "update successfully",
         "id": id,

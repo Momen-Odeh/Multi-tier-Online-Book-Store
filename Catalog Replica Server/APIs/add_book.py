@@ -19,15 +19,16 @@ def addBook():
             conn = get_db_connection()
             cursor = conn.cursor()
             cursor.execute(sql_query,(topic, title, price, quantity))
-            conn.commit()
-            # get topic from DB
-            cursor.execute(f"select id from Books where topic = '{topic}' and title = '{title}' and price ='{price}' and quantity = '{quantity}' ;")
-            id = cursor.fetchone()[0]
-            #
-            conn.close()
+            
             if (data.get('be',None) is None):
                 data['be'] = True
-                requests.post(f'{urlReplicaServer}/books', json=data)
+                res = requests.post(f'{urlReplicaServer}/books', json=data)
+                if res.status_code !=201:
+                    return {"status": "invalid request"}, 409
+            conn.commit()
+            cursor.execute(f"select id from Books where topic = '{topic}' and title = '{title}' and price ='{price}' and quantity = '{quantity}' ;")
+            id = cursor.fetchone()[0]
+            conn.close()
             return jsonify({
             "status": "insert successfully",
             "id": id
