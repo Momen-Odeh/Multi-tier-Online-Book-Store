@@ -2,7 +2,9 @@ from FlaskSetup import app
 from flask import request,jsonify
 from SQLiteConnection import get_db_connection
 import requests
-urlReplicaServer = "http://localhost:5001"
+from FlaskSetup import urlReplicaServer
+
+
 @app.route('/books/<int:id>', methods=['PUT'])
 def updateBooks(id):
     try:

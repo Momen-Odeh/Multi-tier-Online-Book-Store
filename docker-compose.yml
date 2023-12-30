@@ -1,21 +1,35 @@
-services:
+version: '1'
 
+services:
   order:
-    build: ./Oreder Server
+    build: ./Order Server
     ports:
       - "5002:5002"
     depends_on:
       - catalog
+      - catalog2
     volumes:
-      - ./Oreder Server:/app
-    
+      - ./Order Server:/app
+      
+  order2:
+    build: ./Order Server 2
+    ports:
+      - "5004:5004"
+    depends_on:
+      - catalog
+      - catalog2
+    volumes:
+      - ./Order Server 2:/app
+      
   frontend:
     build: ./Frontend Server
     ports:
       - "5000:5000"
     depends_on:
       - catalog
+      - catalog2
       - order
+      - order2
     volumes:
       - ./Frontend Server:/app
       
@@ -25,3 +39,10 @@ services:
       - "5001:5001"
     volumes:
       - ./Catalog Server:/app
+      
+  catalog2:
+    build: ./Catalog Server 2
+    ports:
+      - "5003:5003"
+    volumes:
+      - ./Catalog Server 2:/app

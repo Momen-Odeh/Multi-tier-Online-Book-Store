@@ -6,8 +6,6 @@ from APIs.purchase import purchase_item
 from APIs.consistent_book_count import consistent_book_count
 from APIs.updateBook import updateBooks
 from APIs.add_book import addBook
-# from APIs.updateCost import update_cost_item
-# from APIs.updateQuantity import update_quantity_item
 CORS(app)
 if __name__ == '__main__':
     app.run(host='0.0.0.0', port=5003)

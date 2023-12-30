@@ -14,4 +14,4 @@ RUN pip install flask flask_cors requests gunicorn
 EXPOSE 5002
 
 # Command to run the Flask app
-CMD ["gunicorn", "main:app", "--bind", "0.0.0.0:5002"]
+CMD ["gunicorn", "main:app", "-w", "1", "--bind", "0.0.0.0:5002"]

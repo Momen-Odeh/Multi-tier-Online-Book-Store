@@ -2,7 +2,8 @@ from SQLiteConnection import get_db_connection
 from FlaskSetup import app
 from flask import jsonify
 import requests
-urlReplicaServer = "http://localhost:5003"
+from FlaskSetup import urlReplicaServer
+
 
 @app.route('/purchase/<int:item_id>', methods=['PUT'])
 def purchase_item(item_id):
